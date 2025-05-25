@@ -1,0 +1,20 @@
+{
+    "name": "syntaxx/wasm-php-runtime",
+    "description": "Prebuilt PHP WebAssembly runtime (php.wasm + php.js)",
+    "type": "metapackage",
+    "scripts": {
+      "post-install-cmd": [
+        "Syntaxx\\PhpWasm\\Installer::install"
+      ]
+    },
+    "autoload": {
+      "psr-4": {
+        "Syntaxx\\PhpWasm\\": "src/"
+      }
+    },
+    "extra": {
+      "php-wasm": {
+        "target-dir": "public/wasm"
+      }
+    }
+}
