@@ -2,11 +2,6 @@
     "name": "syntaxx/wasm-php-runtime-vrzno",
     "description": "Prebuilt PHP WebAssembly runtime (php.wasm + php.js)",
     "type": "library",
-    "scripts": {
-      "post-install-cmd": [
-        "Syntaxx\\PhpWasm\\Installer::install"
-      ]
-    },
     "autoload": {
       "psr-4": {
         "Syntaxx\\PhpWasm\\": "src/"
