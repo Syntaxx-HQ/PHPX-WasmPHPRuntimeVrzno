@@ -9,10 +9,10 @@ use Composer\Script\Event;
 
 class Installer
 {
-    private const RELEASE_URL_PATTERN = 'https://github.com/Syntaxx-HQ/PHPX-phpwasmbuilder/releases/download/v%s/php-web.%s';
+    private const RELEASE_URL_PATTERN = 'https://github.com/Syntaxx-HQ/PHPX-phpwasmbuilder/releases/download/v%s/php-vrzno-web.%s';
     private const FILES = [
-        'mjs' => 'php-web.mjs',
-        'wasm' => 'php-web.wasm'
+        'mjs' => 'php-vrzno-web.mjs',
+        'wasm' => 'php-vrzno-web.wasm'
     ];
 
     public static function install(Event $event)

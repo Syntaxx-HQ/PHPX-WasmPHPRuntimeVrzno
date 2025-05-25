@@ -1,5 +1,5 @@
 {
-    "name": "syntaxx/wasm-php-runtime",
+    "name": "syntaxx/wasm-php-runtime-vrzno",
     "description": "Prebuilt PHP WebAssembly runtime (php.wasm + php.js)",
     "type": "metapackage",
     "scripts": {
