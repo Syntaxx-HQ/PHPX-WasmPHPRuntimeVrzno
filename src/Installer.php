@@ -20,8 +20,25 @@ class Installer
         $composer = $event->getComposer();
         $io = $event->getIO();
         $package = $composer->getPackage();
-        $version = self::getVersion($package);
+        //$version = self::getVersion($package);
         
+        // Get dependency information
+        $dependencies = self::getDependencyInfo($composer, $io);
+        
+        // Get current package name
+        $thisPackageName = self::getCurrentPackageName();
+        $io->write(sprintf('Using package: %s', $thisPackageName));
+        
+        // Extract version for this package
+        if (isset($dependencies[$thisPackageName])) {
+            $version = $dependencies[$thisPackageName]['version'];
+            $io->write(sprintf('Package version: %s', $version));
+        } else {
+            $io->writeError(sprintf('Package %s not found in dependencies', $thisPackageName));
+            throw new \RuntimeException('Package not found in dependencies');
+        }
+
+        var_export($dependencies);
         $io->write(sprintf('Installing PHP WASM version: %s', $version));
         
         $config = $package->getExtra()['php-wasm'] ?? [];
@@ -107,5 +124,43 @@ class Installer
         }
 
         return true;
+    }
+
+    private static function getDependencyInfo(Composer $composer, IOInterface $io): array
+    {
+        $repository = $composer->getRepositoryManager()->getLocalRepository();
+        $dependencies = [];
+        
+        // Get all installed packages
+        foreach ($repository->getPackages() as $package) {
+            $dependencies[$package->getName()] = [
+                'version' => preg_replace('/^v|(-dev|-alpha|-beta).*$/', '', $package->getPrettyVersion()),
+                'requires' => array_map(function($require) {
+                    return [
+                        'package' => $require->getTarget(),
+                        'constraint' => $require->getConstraint()->getPrettyString()
+                    ];
+                }, $package->getRequires())
+            ];
+        }
+        
+        return $dependencies;
+    }
+
+    private static function getCurrentPackageName(): string
+    {
+        // Go up 3 levels from src/Installer.php to reach the root directory
+        $composerJsonPath = __DIR__ . '/../composer.json';
+        
+        if (!file_exists($composerJsonPath)) {
+            throw new \RuntimeException('Could not find composer.json in parent directory');
+        }
+        
+        $composerJson = json_decode(file_get_contents($composerJsonPath), true);
+        if (!isset($composerJson['name'])) {
+            throw new \RuntimeException('No package name found in composer.json');
+        }
+        
+        return $composerJson['name'];
     }
 }
