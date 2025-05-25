@@ -48,7 +48,6 @@ class Installer
 
     private static function getVersion(PackageInterface $package): string
     {
-        return '8.3.20';
         $version = $package->getVersion();
         // Remove 'v' prefix if present and any dev/alpha/beta suffixes
         return preg_replace('/^v|(-dev|-alpha|-beta).*$/', '', $version);
