@@ -38,7 +38,6 @@ class Installer
             throw new \RuntimeException('Package not found in dependencies');
         }
 
-        var_export($dependencies);
         $io->write(sprintf('Installing PHP WASM version: %s', $version));
         
         $config = $package->getExtra()['php-wasm'] ?? [];
@@ -61,13 +60,6 @@ class Installer
                 throw $e; // Re-throw to ensure Composer knows about the failure
             }
         }
-    }
-
-    private static function getVersion(PackageInterface $package): string
-    {
-        $version = $package->getVersion();
-        // Remove 'v' prefix if present and any dev/alpha/beta suffixes
-        return preg_replace('/^v|(-dev|-alpha|-beta).*$/', '', $version);
     }
 
     private static function downloadFile(string $url, string $targetPath): bool
