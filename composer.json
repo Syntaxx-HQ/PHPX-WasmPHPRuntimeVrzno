@@ -1,15 +1,19 @@
 {
     "name": "syntaxx/wasm-php-runtime-vrzno",
     "description": "Prebuilt PHP WebAssembly runtime (php.wasm + php.js)",
-    "type": "library",
+    "type": "composer-plugin",
+    "require": {
+        "composer-plugin-api": "^2.0"
+    },
     "autoload": {
-      "psr-4": {
-        "Syntaxx\\PhpWasm\\": "src/"
-      }
+        "psr-4": {
+            "Syntaxx\\PhpWasm\\": "src/"
+        }
     },
     "extra": {
-      "php-wasm": {
-        "target-dir": "public/wasm"
-      }
+        "php-wasm": {
+            "target-dir": "public/wasm"
+        },
+        "class": "Syntaxx\\PhpWasm\\Plugin"
     }
 }
